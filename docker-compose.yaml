@@ -1,0 +1,17 @@
+version: '3.7'
+services:
+  certbot:
+    image: 'tjth-certbot'
+    build: .
+    container_name: 'certbot'
+    volumes:
+      - '/data/letsencrypt/certs:/etc/letsencrypt'
+      - './config/cloudflare.ini:/etc/letsencrypt/cloudflare.ini:ro'
+      - '/data/letsencrypt/lib:/var/lib/letsencrypt'
+      - './scripts/:/scripts/'
+    environment: 
+      - 'EVERY_DAYS=1'
+      - 'EMAIL=certbot@tjth.co'
+      - 'DOMAINS=docker-registry.tjth.co'
+      - 'RENEW_IF_VALID=no'
+    restart: always
